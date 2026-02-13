@@ -1,0 +1,356 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "ebeac5a3-f5e4-4996-89cb-def1ee9f5ef6",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "hrs_guest": {
+      "name": "hrs_guest",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "firstName": {
+          "name": "firstName",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lastName": {
+          "name": "lastName",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text(20)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "hrs_guest_email_unique": {
+          "name": "hrs_guest_email_unique",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "hrs_invoice": {
+      "name": "hrs_invoice",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "reservationId": {
+          "name": "reservationId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "totalAmount": {
+          "name": "totalAmount",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "issuedAt": {
+          "name": "issuedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {
+        "hrs_invoice_reservationId_unique": {
+          "name": "hrs_invoice_reservationId_unique",
+          "columns": [
+            "reservationId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "hrs_invoice_reservationId_hrs_reservation_id_fk": {
+          "name": "hrs_invoice_reservationId_hrs_reservation_id_fk",
+          "tableFrom": "hrs_invoice",
+          "tableTo": "hrs_reservation",
+          "columnsFrom": [
+            "reservationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "hrs_reservation": {
+      "name": "hrs_reservation",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "guestId": {
+          "name": "guestId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "roomId": {
+          "name": "roomId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "checkInDate": {
+          "name": "checkInDate",
+          "type": "text(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "checkOutDate": {
+          "name": "checkOutDate",
+          "type": "text(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'confirmed'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {
+        "reservation_guest_idx": {
+          "name": "reservation_guest_idx",
+          "columns": [
+            "guestId"
+          ],
+          "isUnique": false
+        },
+        "reservation_room_idx": {
+          "name": "reservation_room_idx",
+          "columns": [
+            "roomId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "hrs_reservation_guestId_hrs_guest_id_fk": {
+          "name": "hrs_reservation_guestId_hrs_guest_id_fk",
+          "tableFrom": "hrs_reservation",
+          "tableTo": "hrs_guest",
+          "columnsFrom": [
+            "guestId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "hrs_reservation_roomId_hrs_room_id_fk": {
+          "name": "hrs_reservation_roomId_hrs_room_id_fk",
+          "tableFrom": "hrs_reservation",
+          "tableTo": "hrs_room",
+          "columnsFrom": [
+            "roomId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "hrs_room_type": {
+      "name": "hrs_room_type",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text(500)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "capacity": {
+          "name": "capacity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pricePerNight": {
+          "name": "pricePerNight",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "hrs_room_type_name_unique": {
+          "name": "hrs_room_type_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "hrs_room": {
+      "name": "hrs_room",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "roomNumber": {
+          "name": "roomNumber",
+          "type": "text(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "roomTypeId": {
+          "name": "roomTypeId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'available'"
+        },
+        "floor": {
+          "name": "floor",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "hrs_room_roomNumber_unique": {
+          "name": "hrs_room_roomNumber_unique",
+          "columns": [
+            "roomNumber"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "hrs_room_roomTypeId_hrs_room_type_id_fk": {
+          "name": "hrs_room_roomTypeId_hrs_room_type_id_fk",
+          "tableFrom": "hrs_room",
+          "tableTo": "hrs_room_type",
+          "columnsFrom": [
+            "roomTypeId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
