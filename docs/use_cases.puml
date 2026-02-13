@@ -1,0 +1,43 @@
+@startuml use_cases
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+title Hotel Reservation System - Use Case Diagram
+
+actor "Guest" as guest
+actor "Receptionist" as receptionist
+actor "Manager" as manager
+actor "Housekeeping" as housekeeping
+
+rectangle "Hotel Reservation System" {
+    usecase "UC-001\nSearch Available Rooms" as UC001
+    usecase "UC-002\nReserve Room" as UC002
+    usecase "UC-003\nGenerate Booking\nConfirmation Email" as UC003
+    usecase "UC-004\nCheck In Walk-In Guest" as UC004
+    usecase "UC-005\nCheck Out Guest\n& Generate Invoice" as UC005
+    usecase "UC-006\nCancel Reservation" as UC006
+    usecase "UC-007\nGenerate Occupancy\nReport" as UC007
+    usecase "UC-008\nSend Reminder Email" as UC008
+    usecase "UC-009\nUpdate Room Status" as UC009
+}
+
+' Guest interactions
+guest --> UC001
+guest --> UC002
+guest --> UC006
+
+' Receptionist interactions
+receptionist --> UC004
+receptionist --> UC005
+
+' Manager interactions
+manager --> UC007
+
+' Housekeeping interactions
+housekeeping --> UC009
+
+' System-triggered use cases
+UC008 .left.> UC002 : <<extend>>
+
+@enduml
